@@ -1,6 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable global-require *//* eslint-disable import/no-dynamic-require */
 /* eslint-disable linebreak-style */
+
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');

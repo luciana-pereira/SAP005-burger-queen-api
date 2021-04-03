@@ -1,10 +1,10 @@
 /* eslint-disable linebreak-style */
-// const { Router } = require('express');
+const { Router } = require('express');
 // const User = require('../controller/User');
 // const Products = require('../controller/Products');
-// const Orders = require('../controller/ordersController');
+const Orders = require('../controller/OrdersController');
 
-// const router = Router();
+const router = Router();
 
 // aqui vai as requisições || endpoints
 // users
@@ -22,10 +22,10 @@
 // router.delete('/products/:productid', Products.deleteProducts);
 
 // orders
-// router.get('/orders', Orders);
-// router.get('/orders/:orderId', Orders);
-// router.post('/orders', Orders.postOrders);
-// router.put('/orders/:orderId', Orders);
-// router.delete('/orders/:orderId', Orders);
+router.get('/', Orders);
+router.get('/:orderId', Orders);
+router.post('/', Orders.postOrders);
+router.put('/:orderId', Orders);
+router.delete('/:orderId', Orders);
 
-// module.exports = router;
+module.exports = router;

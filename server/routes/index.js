@@ -5,9 +5,9 @@ const { Router } = require('express');
 // const express = require('express');
 // const cors = require('cors');
 // const userModel = require('../db/models/userModel');
-const Users = require('./user');
-const Products = require('./products');
-// const Orders = require('./orders');
+const Users = require('./User');
+const Products = require('./Products');
+const Orders = require('./Orders');
 
 const router = Router();
 // router.use(cors());
@@ -39,6 +39,6 @@ const router = Router();
 // });
 router.use('/users', Users);
 router.use('/products', Products);
-// router.use('/orders', Orders);
+router.use('/orders', Orders);
 
 module.exports = router;

@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable strict */
 // eslint-disable-next-line lines-around-directive
 'use strict';
@@ -12,6 +13,7 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       flavor: {
         type: Sequelize.STRING,
@@ -21,15 +23,18 @@ module.exports = {
       },
       price: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
       image: {
         type: Sequelize.STRING,
       },
       type: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       subtype: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

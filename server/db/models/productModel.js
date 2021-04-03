@@ -5,7 +5,15 @@ const {
 
 module.exports = (sequelize, DataTypes) => {
   class Products extends Model {
-    static associate(models) {}
+    static associate(models) {
+      Products.belongsToMany(models.Order, {
+        through: 'ProductOrder',
+        as: 'orders',
+        foreignKey: 'productId',
+        onDelete: 'CASCADE',
+        hooks: true,
+      });
+    }
   }
   Products.init({
     name: DataTypes.STRING,
@@ -15,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
     type: DataTypes.STRING,
     subtype: DataTypes.STRING,
-
   }, {
     sequelize,
     modelName: 'Products',

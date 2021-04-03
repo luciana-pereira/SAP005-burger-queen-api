@@ -5,28 +5,24 @@ const {
 
 module.exports = (sequelize, DataTypes) => {
   class Orders extends Model {
-    static associate(models) {}
+    static associate(models) {
+      // associação
+      Orders.belongsToMany(models.Products, {
+        through: 'ProductOrder',
+        as: 'order',
+        foreignKey: 'orderId',
+        onDelete: 'CASCADE',
+        hooks: true,
+      });
+      Orders.belongsTo(models.User, {
+        foreignKey: 'userId',
+      });
+    }
   }
   Orders.init({
     client_name: DataTypes.STRING,
-    user_id: DataTypes.STRING,
     table: DataTypes.STRING,
     status: DataTypes.STRING,
-    processedAt: DataTypes.STRING,
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-    },
-    updatedAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-    },
-    Products: [{
-      name: DataTypes.STRING,
-      flavor: DataTypes.STRING,
-      complement: DataTypes.STRING,
-    }],
-
   }, {
     sequelize,
     modelName: 'Orders',
