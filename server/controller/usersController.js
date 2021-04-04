@@ -10,7 +10,7 @@ const Users = {
       .catch(next);
   },
 
-  create: (req, res, next) => {
+  createUser: (req, res, next) => {
     const {
       name, email, password, role, restaurant,
     } = req.body;
