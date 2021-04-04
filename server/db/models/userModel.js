@@ -6,13 +6,13 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      User.hasMany(models.Order, {
+      User.hasMany(models.Orders, {
         foreignKey: 'id',
       });
     }
   }
   User.init({
-    client_name: DataTypes.STRING,
+    name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.INTEGER,
     role: DataTypes.STRING,

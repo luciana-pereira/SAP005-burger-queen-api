@@ -10,9 +10,5 @@ const app = express();
 // app.use(cors());
 app.use(express.json());
 app.use(routes);
-// app.use((err, res, next) => {
-//   if (process.env.NODE_ENV === 'production') res.status(500).json({ error: 'server error' });
-//   else return next(err);
-// });
 
 app.listen(port);

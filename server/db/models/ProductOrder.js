@@ -6,13 +6,13 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class ProductOrder extends Model {
     static associate(models) {
-      models.Order.belongsToMany(models.Products, {
+      models.Orders.belongsToMany(models.Products, {
         through: 'ProductOrder',
         foreignKey: 'orderId',
         onDelete: 'CASCADE',
         hooks: true,
       });
-      models.Products.belongsToMany(models.Order, {
+      models.Products.belongsToMany(models.Orders, {
         through: 'ProductOrder',
         foreignKey: 'productId',
         onDelete: 'CASCADE',

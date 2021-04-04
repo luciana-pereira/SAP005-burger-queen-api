@@ -1,112 +1,100 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable quote-props */
-/* eslint-disable consistent-return *//* eslint-disable linebreak-style */
-/* eslint-disable quotes */
-// aqui vai o código que acessa o banco de dados
-//
+/* eslint-disable linebreak-style */
+// /* eslint-disable prefer-destructuring *//* eslint-disable quote-props */
+// /* eslint-disable consistent-return *//* eslint-disable linebreak-style */
+// /* eslint-disable quotes */
 const OrderService = require('../services/OrderServices');
-const UserService = require('../services/ProductServices');
-const ProductServices = require('../services/ProductServices');
 
 const OrderController = {
-  async allOrder(req, res, next) {
-    try {
-      const getOrder = await OrderService.getOrder();
-      const getOrderTemplate = getOrder.map((order) => ({
-        "orderId": order.id,
-        "employee": order.user.name,
-        "employee_id": order.user_id,
-        "client_name": order.client_name,
-        "table": order.table,
-        "status": order.status,
-        "createAt": order.createAt,
-        "updateAt": order.updateAt,
-        "products": order.produts.map((product) => ({
-          "id": product.id,
-          "name": product.name,
-          "qtd": product.productOrder.qtd,
-          "flavor": product.flavor,
-          "complement": product.complement,
-        })),
-      }));
-      res.status(200).json(getOrderTemplate);
-    } catch (error) {
-      next(error);
+  all(req, res, next) {
+    const getOrder = OrderService.getOrder();
+    getOrder.map((order) => ({
+      orderId: order.id,
+      employee: order.user.name,
+      employee_id: order.user_id,
+      client_name: order.client_name,
+      table: order.table,
+      status: order.status,
+      createAt: order.createAt,
+      updateAt: order.updateAt,
+      products: order.produts.map((product) => ({
+        id: product.id,
+        name: product.name,
+        qtd: product.productOrder.qtd,
+        flavor: product.flavor,
+        complement: product.complement,
+      })),
+    }))
+      .then((result) => {
+        res.status(200).json(result);
+      })
+      .catch(next);
+  },
+
+  orderbyId(req, res, next) {
+    const orderId = req.params.id;
+    const listOrder = OrderService.listOrder(orderId);
+    const orderList = ({
+      order_id: listOrder.id,
+      employee: listOrder.user.name,
+      employee_id: listOrder.user_id,
+      client_name: listOrder.client_name,
+      table: listOrder.table,
+      status: listOrder.status,
+      createdAt: listOrder.createdAt,
+      updatedAt: listOrder.updatedAt,
+      products: listOrder.produts.map((product) => ({
+        id: product.id,
+        name: product.name,
+        qtd: product.productOrder.qtd,
+        flavor: product.flavor,
+        complement: product.complement,
+      })),
+    })
+      .then((result) => {
+        res.status(201).json(orderList);
+        console.log(result);
+      })
+      .catch(next);
+  },
+
+  create(req, res, next) {
+    const createOrder = OrderService.createOrder(req.body);
+    const productOrder = req.body.product;
+    OrderService.createOrder(productOrder);
+    productOrder.forEach((product) => ({
+      order_id: createOrder.id,
+      product_id: product.product_id,
+      qtd: product.qtd,
+    }))
+      .then((result) => {
+        res.status(201).json(result, { message: 'pedido criado!!' });
+      })
+      .catch(next);
+  },
+
+  destroyOrder(req, res) {
+    const orderById = req.params.orderId;
+    const order = OrderService.orderId(orderById);
+    if (order) {
+      OrderService.deleteOrder(orderById);
+      res.status(200).json({ message: 'Pedido deletado!' });
     }
   },
 
-  async orderbyId(req, res, next) {
-    try {
-      const orderId = req.params.orderId;
-      const listOrder = await OrderService.listOrder(orderId);
-      const orderList = {
-        "order_id": listOrder.id,
-        "employee": listOrder.user.name,
-        "employee_id": listOrder.user_id,
-        "client_name": listOrder.client_name,
-        "table": listOrder.table,
-        "status": listOrder.status,
-        "createdAt": listOrder.createdAt,
-        "updatedAt": listOrder.updatedAt,
-        "products": listOrder.produts.map((product) => ({
-          "id": product.id,
-          "name": product.name,
-          "qtd": product.productOrder.qtd,
-          "flavor": product.flavor,
-          "complement": product.complement,
-        })),
-      };
-      res.status(200).json(orderList);
-    } catch (error) {
-      next(error);
-    }
-  },
-
-  async create(req, res) {
-    try {
-      const createOrder = await Order.createOrder(req.body);
-      let productOrder = req.body.product;
-      productOrder = productOrder.map((product) => ({
-        orderId: createOrder.id,
-        productId: product.id,
-        qtd: product.qtd,
-      }));
-      await Order.createOrder(productOrder);
-      res.status(201).json({ message: 'pedido criado!!' });
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-  async destroyOrder(req, res) {
-    try {
-      const orderById = req.params.orderId;
-      const order = await Order.orderId(orderById);
-      if (order) {
-        await Order.deleteOrder(orderById);
-        res.status(200).json({ message: 'Pedido deletado!' });
-      } else {
-        return;
-      }
-    } catch (error) {
-      res.status(400).json(error);
-    }
-  },
-
-  async update(req, res) {
-    try {
-      const orderById = req.params.orderId;
-      const newstatus = req.body.status;
-      const order = await Order.updateOrder(orderById);
-
-      if (order) {
-        await Order.updateOrder(orderById, newstatus);
-        res.status(204).json({ message: 'pedido atualizado' });
-      } else {
-        return res.json({ message: 'error' });
-      }
-    } catch (error) {
-      res.status(400).json(error);
-    }
+  update(req, res, next) {
+    const orderById = req.params.orderId;
+    const order = OrderService.updateOrder(orderById);
+    const updateOrder = ({
+      id: orderById,
+      client_name: order.client_name,
+      table: order.table,
+      user_id: order.user_id,
+      status: order.status,
+    })
+      .then(() => {
+        res.status(200).json(updateOrder);
+      })
+      .catch(next);
   },
 };
 module.exports = OrderController;

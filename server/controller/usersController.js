@@ -1,70 +1,61 @@
-/* eslint-disable linebreak-style */
-// aqui vai o código que acessa o banco de dados
-const userModel = require('../db/models/UserModel');
+/* eslint-disable no-undef *//* eslint-disable linebreak-style */
+const { UserModel } = require('../db/models/UserModel');
 
-const usersReq = {
-  getAllUser: async (res) => {
-    try {
-      const getAllUser = await userModel.userfindAll({
-        attr: {
-          exclude: ['password'],
-        },
-      });
-      res.json(getAllUser);
-    } catch (error) {
-      console.log(error);
-    }
+const Users = {
+  all: (req, res, next) => {
+    UserModel.findAll()
+      .then((result) => {
+        res.json(result);
+      })
+      .catch(next);
   },
 
-  createUsers: async (req, res) => {
+  create: (req, res, next) => {
     const {
       name, email, password, role, restaurant,
     } = req.body;
-    try {
-      const user = await userModel.create({
-        name, email, password, role, restaurant,
-      });
-      res.json(user);
-    } catch (error) {
-      console.log(error);
-    }
+
+    const user = UserModel.create({
+      name, email, password, role, restaurant,
+    })
+      .then((result) => {
+        res.status(201).json(result);
+        console.log(user);
+      })
+      .catch(next);
   },
 
-  getUserId: async (req, res) => {
+  getUserId(req, res, next) {
     const uid = req.params.id;
-    try {
-      const user = await userModel.findAll({
-        where: { uid },
-        attr: { exclude: ['password'] },
-      });
-      res.json(user);
-    } catch (error) {
-      console.log(error);
-    }
+    UserModel.findAll({
+      where: { uid },
+    })
+      .then((result) => {
+        res.status(201).json(result);
+      })
+      .catch(next);
   },
 
-  updateUser: async (req, res) => {
-    try {
-      const user = await userModel.update(
-        { name: req.body.name },
-        { where: { uid: req.params.id } },
-      );
-      res.json(user);
-    } catch (error) {
-      console.log(error);
-    }
+  updateUser(req, res, next) {
+    UserModel.update(
+      { name: req.body.name },
+      { where: { uid: req.params.id } },
+    )
+      .then((result) => {
+        res.status(201).json(result);
+      })
+      .catch(next);
   },
 
-  userDelete: async (req, res) => {
-    try {
-      await userModel.destroy({
-        where: { uid: req.params.id },
-      });
-      res.send('Usuario excluido!');
-    } catch (error) {
-      console.log(error);
-    }
+  userDelete(req, res, next) {
+    UserModel.destroy({
+      where: { uid: req.params.id },
+    })
+      .then((result) => {
+        res.status(201).json(result).send('Usuario excluido!');
+      })
+      .catch(next);
   },
 };
 
-module.exports = { usersReq };
+module.exports = Users;
