@@ -4,8 +4,8 @@
 // /* eslint-disable quotes */
 const OrderService = require('../services/OrderServices');
 
-const OrderController = {
-  all(req, res, next) {
+const all = async (req, res) => {
+  try {
     const getOrder = OrderService.getOrder();
     getOrder.map((order) => ({
       orderId: order.id,
@@ -23,16 +23,17 @@ const OrderController = {
         flavor: product.flavor,
         complement: product.complement,
       })),
-    }))
-      .then((result) => {
-        res.status(200).json(result);
-      })
-      .catch(next);
-  },
+    }));
+    res.status(200).json(getOrder);
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+};
 
-  orderbyId(req, res, next) {
+const orderbyId = async (req, res) => {
+  try {
     const orderId = req.params.id;
-    const listOrder = OrderService.listOrder(orderId);
+    const listOrder = await OrderService.listOrder(orderId);
     const orderList = ({
       order_id: listOrder.id,
       employee: listOrder.user.name,
@@ -49,52 +50,59 @@ const OrderController = {
         flavor: product.flavor,
         complement: product.complement,
       })),
-    })
-      .then((result) => {
-        res.status(201).json(orderList);
-        console.log(result);
-      })
-      .catch(next);
-  },
+    });
+    res.status(201).json(orderList);
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+};
 
-  create(req, res, next) {
-    const createOrder = OrderService.createOrder(req.body);
+const create = async (req, res) => {
+  try {
+    const createOrder = await OrderService.createOrder(req.body);
     const productOrder = req.body.product;
     OrderService.createOrder(productOrder);
     productOrder.forEach((product) => ({
       order_id: createOrder.id,
       product_id: product.product_id,
       qtd: product.qtd,
-    }))
-      .then((result) => {
-        res.status(201).json(result, { message: 'pedido criado!!' });
-      })
-      .catch(next);
-  },
+    }));
+    res.status(201).json(productOrder, { message: 'pedido criado!!' });
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+};
 
-  destroyOrder(req, res) {
+const destroyOrder = async (req, res) => {
+  try {
     const orderById = req.params.orderId;
-    const order = OrderService.orderId(orderById);
+    const order = await OrderService.orderId(orderById);
     if (order) {
       OrderService.deleteOrder(orderById);
       res.status(200).json({ message: 'Pedido deletado!' });
     }
-  },
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+};
 
-  update(req, res, next) {
+const update = async (req, res) => {
+  try {
     const orderById = req.params.orderId;
-    const order = OrderService.updateOrder(orderById);
+    const order = await OrderService.updateOrder(orderById);
     const updateOrder = ({
       id: orderById,
       client_name: order.client_name,
       table: order.table,
       user_id: order.user_id,
       status: order.status,
-    })
-      .then(() => {
-        res.status(200).json(updateOrder);
-      })
-      .catch(next);
-  },
+    });
+    res.status(200).json(updateOrder);
+  } catch (err) {
+    res.json({ message: err.message });
+  }
 };
-module.exports = OrderController;
+
+module.exports = {
+  all, orderbyId, create, update, destroyOrder,
+};
