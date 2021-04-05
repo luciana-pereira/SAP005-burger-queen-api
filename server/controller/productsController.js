@@ -1,62 +1,74 @@
 /* eslint-disable object-shorthand *//* eslint-disable linebreak-style */
 /* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
-const Product = require('../db/models/ProductModel');
+const ProductModel = require('../db/models');
+const ProductService = require('../services/ProductServices');
 
-const Products = {
-  getProducts: (req, res, next) => {
-    Product.findAll()
-      .then((result) => {
-        res.send(result);
-      })
-      .catch(next);
-  },
-
-  getProductsId: (req, res, next) => {
-    const id = req.params.productid;
-    // eslint-disable-next-line no-self-compare
-    Product.findAll({
-      where: { id },
-    })
-      .then((result) => {
-        res.status(201).json(result);
-      })
-      .catch(next);
-  },
-
-  postProducts: (req, res, next) => {
-    const {
-      name,
-      price,
-    } = req.body;
-
-    Product.create({ name, price })
-      .then((result) => {
-        res.status(201).json(result);
-      })
-      .catch(next);
-  },
-
-  putProducts: (req, res, next) => {
-    Product.update(
-      { name: req.body.name },
-      { price: req.body.price },
-      { where: { id: req.params.id } },
-    )
-      .then((result) => {
-        res.status(201).json(result);
-      })
-      .catch(next);
-  },
-
-  deleteProducts: (req, res, next) => {
-    Product.destroy({
-      where: { id: req.params.id },
-    })
-      .then((result) => {
-        res.status(201).json(result).send('Produto excluido!');
-      })
-      .catch(next);
-  },
+const getProducts = async (req, res) => {
+  try {
+    const products = await ProductService.getProducts();
+    res.status(200).json(products);
+  } catch (err) {
+    res.json({ message: err.message });
+  }
 };
 
-module.exports = Products;
+const getProductsId = async (req, res) => {
+  try {
+    const id = req.params.productid;
+    const productByid = await ProductService.getProductsId(id);
+    res.status(200).json(productByid);
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+};
+
+const postProducts = async (req, res) => {
+  try {
+    const newProduct = {
+      name: req.body.name,
+      price: req.body.price,
+      flavor: req.body.flavor,
+      complement: req.body.complement,
+      type: req.body.type,
+      subType: req.body.subType,
+    };
+    await ProductService.createProduct(newProduct);
+    res.status(201).json(newProduct, {
+      message: 'produto criado !',
+    });
+  } catch (err) {
+    res.status(400).json({
+      message: 'erro, produto não criado',
+    });
+  }
+};
+
+const putProducts = async (req, res) => {
+  try {
+    const productUpdate = await ProductModel.Products.update({
+      name: req.body.name,
+      price: req.body.price,
+      flavor: req.body.flavor,
+      complement: req.body.complement,
+      type: req.body.type,
+      subType: req.body.subType,
+    }, { where: { id: req.params.id } });
+    res.status(200).json(productUpdate, { message: 'produto atualizado!' });
+  } catch (err) {
+    res.status(400).json({ message: 'erro produto não atualizado' });
+  }
+};
+
+const deleteProducts = async (req, res) => {
+  try {
+    const { productid } = req.params;
+    await ProductService.deleteProduct(productid);
+    res.status(201).json({ message: 'produto excluido' });
+  } catch (err) {
+    res.status(400).json({ message: 'erro ao efetuar exclusão' });
+  }
+};
+
+module.exports = {
+  getProducts, getProductsId, postProducts, putProducts, deleteProducts,
+};
