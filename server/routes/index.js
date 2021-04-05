@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars *//* eslint-disable consistent-return */
 const express = require('express');
 
-const User = require('./User');
+const User = require('./user');
 const Products = require('./Products');
 const Orders = require('./Orders');
 const Auth = require('./Auth');
