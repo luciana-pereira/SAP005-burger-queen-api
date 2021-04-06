@@ -1,6 +1,6 @@
 /* eslint-disable no-undef *//* eslint-disable linebreak-style */
 const UserModel = require('../db/models');
-const UserService = require('../services/UserServices');
+const { UserService } = require('../services/UserServices');
 
 const all = async (req, res) => {
   try {
