@@ -22,7 +22,7 @@ const UserServices = {
   },
 
   async deleteUsers(userid) {
-    await db.User.destroy({ where: { id: userid } });
+    await db.destroy({ where: { id: userid } });
   },
 };
 

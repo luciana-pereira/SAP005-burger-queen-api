@@ -19,7 +19,7 @@ module.export = {
       .then((user) => {
         if (!user) return res.status(401).json({ error: 'Ops.. aconteceu alguma coisa errada, preencha e tente novamente' });
         if (!bcrypt.compareSync(password, user.password)) {
-          return res.status(401).json({ error: 'senha invalida' });
+          return res.status(401).json({ error: 'Falha na autentição' });
         }
         const jwtLoad = { id: user.id };
         const token = jwt.sign(jwtLoad, process.env.JWT_SECRET);
