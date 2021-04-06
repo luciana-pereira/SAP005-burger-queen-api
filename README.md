@@ -1,7 +1,7 @@
 # 🍟🍔 Burger Game - Back-end - API
 
 <div align="center">
-    <img src="./assets/logo.jpeg" alt="logo burger-game" width="180" height="150">
+    <img src="./assets/logo.jpeg" alt="logo burger-game">
 </div>
 
 ## Índice
