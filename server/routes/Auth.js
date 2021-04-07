@@ -1,9 +1,9 @@
 /* eslint-disable linebreak-style */
-const express = require('express');
-// const AuthController = require('../controller/AuthController');
+// const express = require('express');
+// // const AuthController = require('../controller/AuthController');
 
-const router = express.Router();
+// const router = express.Router();
 
-// router.post('/', AuthController.login);
+// // router.post('/', AuthController.login);
 
-module.exports = router;
+// module.exports = router;
