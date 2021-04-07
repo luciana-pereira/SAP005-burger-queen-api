@@ -2,7 +2,7 @@
 const { Router } = require('express');
 // const User = require('../controller/User');
 // const Products = require('../controller/Products');
-const Orders = require('../controller/OrdersController');
+const Orders = require('../controller/ordersController');
 
 const router = Router();
 
