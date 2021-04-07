@@ -3,10 +3,10 @@
 /* eslint-disable no-unused-vars *//* eslint-disable consistent-return */
 const { Router } = require('express');
 
-const User = require('./User.js');
-const Products = require('./Products.js');
-const Orders = require('./Orders.js');
-const Auth = require('./Auth.js');
+const User = require('./user');
+const Products = require('./products');
+const Orders = require('./orders');
+const Auth = require('./auth');
 
 const router = Router();
 
