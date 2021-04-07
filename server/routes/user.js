@@ -1,15 +1,15 @@
 /* eslint-disable quotes *//* eslint-disable linebreak-style */
-const express = require('express');
+const { Router } = require('express');
 // const AuthController = require('../controller/AuthController');
-const UserController = require('../controller/usersController');
+const UserController = require('../controller/UsersController');
 
-const router = express.Router();
+const router = Router();
 
 router.get('/', UserController.all);
 // router.get('/:uid', AuthController.auth, UserController.getUserId);
-router.get('/:uid', UserController.getUserId);
+router.get('/:id', UserController.getUserId);
 router.post('/', UserController.createUser);
-router.put('/:uid', UserController.updateUser);
-router.delete('/:uid', UserController.userDelete);
+router.put('/:id', UserController.updateUser);
+router.delete('/:id', UserController.userDelete);
 
 module.exports = router;

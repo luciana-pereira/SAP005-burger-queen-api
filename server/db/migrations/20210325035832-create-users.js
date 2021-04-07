@@ -11,7 +11,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      client_name: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -21,7 +21,7 @@ module.exports = {
         unique: true,
       },
       password: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       role: {
@@ -43,7 +43,8 @@ module.exports = {
     });
   },
 
-  down: async (queryInterface) => {
+  // eslint-disable-next-line no-unused-vars
+  down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Users');
   },
 };

@@ -1,3 +1,7 @@
+/* eslint-disable no-unused-vars *//* eslint-disable linebreak-style */
+/* eslint-disable strict */
+// eslint-disable-next-line lines-around-directive
+'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('ProductOrder', {
@@ -7,25 +11,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      productId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Products',
-          key: 'id',
-        },
-      },
-      orderId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Orders',
-          key: 'id',
-        },
+      order_id: {
+        references: { model: 'Orders', key: 'id' },
         onDelete: 'CASCADE',
+        type: Sequelize.INTEGER,
       },
-      qtd: {
-        allowNull: false,
+      product_id: {
+        references: { model: 'Products', key: 'id' },
+        type: Sequelize.INTEGER,
+      },
+      amount: {
         type: Sequelize.INTEGER,
       },
       createdAt: {
@@ -39,7 +34,7 @@ module.exports = {
     });
   },
 
-  down: async (queryInterface) => {
+  down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('ProductOrder');
   },
 };

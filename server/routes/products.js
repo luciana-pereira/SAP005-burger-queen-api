@@ -4,9 +4,9 @@ const Products = require('../controller/ProductsController');
 
 const router = Router();
 router.get('/', Products.getProducts);
-router.get('/:productid', Products.getProductsId);
+router.get('/:id', Products.getProductsId);
 router.post('/', Products.postProducts);
-router.put('/:productid', Products.putProducts);
-router.delete('/:productid', Products.deleteProducts);
+router.put('/:id', Products.putProducts);
+router.delete('/:id', Products.deleteProducts);
 
 module.exports = router;

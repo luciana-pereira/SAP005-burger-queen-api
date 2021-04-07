@@ -1,4 +1,4 @@
-/* eslint-disable linebreak-style */
+/* eslint-disable no-unused-vars *//* eslint-disable linebreak-style */
 /* eslint-disable strict */
 // eslint-disable-next-line lines-around-directive
 'use strict';
@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       price: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
         allowNull: false,
       },
       image: {
@@ -30,11 +30,9 @@ module.exports = {
       },
       type: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
-      subtype: {
+      sub_type: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -47,7 +45,7 @@ module.exports = {
     });
   },
 
-  down: async (queryInterface) => {
+  down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Products');
   },
 };

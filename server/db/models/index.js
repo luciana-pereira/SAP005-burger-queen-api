@@ -1,6 +1,8 @@
-/* eslint-disable linebreak-style */
+/* eslint-disable strict *//* eslint-disable linebreak-style */
 /* eslint-disable global-require *//* eslint-disable import/no-dynamic-require */
 /* eslint-disable linebreak-style */
+// eslint-disable-next-line lines-around-directive
+'use strict';
 
 const fs = require('fs');
 const path = require('path');
@@ -19,14 +21,14 @@ if (config.use_env_variable) {
 }
 
 // teste de conexão;
-async function teste() {
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-} teste();
+// async function teste() {
+//   try {
+//     await sequelize.authenticate();
+//     console.log('Connection has been established successfully.');
+//   } catch (error) {
+//     console.error('Unable to connect to the database:', error);
+//   }
+// } teste();
 
 fs
   .readdirSync(__dirname)

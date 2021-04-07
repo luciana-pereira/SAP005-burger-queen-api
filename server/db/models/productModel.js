@@ -9,9 +9,8 @@ module.exports = (sequelize, DataTypes) => {
       Products.belongsToMany(models.Orders, {
         through: 'ProductOrder',
         as: 'orders',
-        foreignKey: 'productId',
-        onDelete: 'CASCADE',
-        hooks: true,
+        foreignKey: 'product_Id',
+        otherKey: 'order_id',
       });
     }
   }
@@ -19,10 +18,10 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     flavor: DataTypes.STRING,
     complement: DataTypes.STRING,
-    price: DataTypes.NUMBER,
+    price: DataTypes.DOUBLE,
     image: DataTypes.STRING,
     type: DataTypes.STRING,
-    subtype: DataTypes.STRING,
+    sub_type: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Products',

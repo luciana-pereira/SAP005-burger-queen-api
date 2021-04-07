@@ -1,10 +1,10 @@
-/* eslint-disable linebreak-style */
+/* eslint-disable no-unused-vars *//* eslint-disable linebreak-style */
 /* eslint-disable strict */
 // eslint-disable-next-line lines-around-directive
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Orders', {
+    await queryInterface.createTable('ProductOrder', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -15,7 +15,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      userId: {
+      user_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
@@ -28,7 +28,6 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       status: {
-        allowNull: false,
         defaultValue: true,
         type: Sequelize.STRING,
       },
@@ -40,10 +39,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      processedAt: {
+        defaultValue: Date.now(),
+        type: Sequelize.DATE,
+      },
     });
   },
 
-  down: async (queryInterface) => {
+  down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Orders');
   },
 };
