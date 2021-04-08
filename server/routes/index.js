@@ -15,7 +15,7 @@ router.use('/users', User);
 router.use('/products', Products);
 router.use('/orders', Orders);
 
-router.use((next) => {
+router.use((req, res, next) => {
   const err = new Error('rota não localizada ');
   err.status = 404;
   next(err);
