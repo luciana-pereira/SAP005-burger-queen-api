@@ -2,7 +2,7 @@
 const db = require('../db/models');
 // User
 const all = async (req, res) => {
-  await db.User.findAll()
+  await db.Users.findAll()
     .then((result) => { res.status(200).json(result); })
     .catch((err) => res.json({ message: err.message }));
 };
@@ -11,7 +11,7 @@ const createUser = async (req, res) => {
   const {
     name, email, password, role, restaurant,
   } = req.body;
-  db.User.create({
+  db.Users.create({
     name, email, password, role, restaurant,
   })
     .then((result) => { res.status(201).json(result, { message: 'usuario criado!' }); })
@@ -19,7 +19,7 @@ const createUser = async (req, res) => {
 };
 
 const getUserId = async (req, res) => {
-  await db.User.findAll({ where: { id: req.params.id } })
+  await db.Users.findAll({ where: { id: req.params.id } })
     .then((result) => { res.status(201).json(result); })
     .catch((err) => res.json({ message: err.message }));
 };
@@ -28,7 +28,7 @@ const updateUser = async (req, res) => {
   const {
     name, email, password, role, restaurant,
   } = req.body;
-  await db.User.update({
+  await db.Users.update({
     name, email, password, role, restaurant,
   }, { where: { id: req.params.id } })
     .then((result) => res.status(201).json(result, { message: 'usuario atualizado' }))
@@ -36,7 +36,7 @@ const updateUser = async (req, res) => {
 };
 
 const userDelete = async (req, res) => {
-  await db.User.destroy({ where: { id: req.params.id } })
+  await db.Users.destroy({ where: { id: req.params.id } })
     .then(() => { res.status(200).json(user, { message: 'Usuario excluido!' }); })
     .catch(() => res.json({ message: err.message }));
 };
